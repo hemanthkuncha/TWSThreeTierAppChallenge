@@ -6,7 +6,9 @@ metadata:
 spec: 
   ports:
   - port: 3500
+    targetPort: 3500
     protocol: TCP
-  type: ClusterIP
+    nodePort: 31002    
+  type: NodePort
   selector:
     role: api
