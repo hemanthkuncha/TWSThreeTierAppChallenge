@@ -9,5 +9,6 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
   hostPath:
     path: /data/db
