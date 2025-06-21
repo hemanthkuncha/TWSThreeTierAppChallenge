@@ -11,4 +11,4 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   hostPath:
-    path: /data/db
+    path: /data/three-tier/db
