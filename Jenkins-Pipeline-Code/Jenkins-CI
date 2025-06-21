@@ -1,0 +1,73 @@
+@Library('Shared') _
+pipeline {
+    agent {label 'jen-slave'}
+    
+    environment{
+        SONAR_HOME = tool "sonar"
+    }
+    
+    stages {
+        
+        stage("Workspace cleanup"){
+            steps{
+                script{
+                    cleanWs()
+                }
+            }
+        }
+        
+        stage('Git: Code Checkout') {
+            steps {
+                script{
+                    code_checkout("https://github.com/hemanthkuncha/TWSThreeTierAppChallenge.git","main")
+                }
+            }
+        }
+        stage("OWASP: Dependency check"){
+            steps{
+                script{
+                    owasp_dependency()
+                }
+            }
+        }
+        
+        stage("SonarQube: Code Analysis"){
+            steps{
+                script{
+                    sonarqube_analysis("sonar","three-tier","three-tier")
+                }
+            }
+        }
+        stage("Docker: Build Images"){
+            steps{
+                script{
+                        dir('Application-Code/backend'){
+                            docker_build("three-tier-backend","$BUILD_NUMBER","hemanthuser")
+                        }
+                    
+                        dir('Application-Code/frontend'){
+                            docker_build("three-tier-frontend","$BUILD_NUMBER","hemanthuser")
+                        }
+                }
+            }
+        }
+        
+        stage("Docker: Push to DockerHub"){
+            steps{
+                script{
+                    docker_push("three-tier-backend","$BUILD_NUMBER","hemanthuser") 
+                    docker_push("three-tier-frontend","$BUILD_NUMBER","hemanthuser")
+                }
+            }
+        }
+    }
+    post{
+        success{
+            archiveArtifacts artifacts: '*.xml', followSymlinks: false
+            build job: "three-tier-CD", parameters: [
+                string(name: 'FRONTEND_DOCKER_TAG', value: "$BUILD_NUMBER"),
+                string(name: 'BACKEND_DOCKER_TAG', value: "$BUILD_NUMBER")
+            ]
+        }
+    }    
+}
