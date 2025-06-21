@@ -39,7 +39,7 @@ spec:
                 key: password
         volumeMounts:
           - name: mongo-volume
-            mountPath: /data/db
+            mountPath: /data/three-tier/db
       volumes: 
       - name: mongo-volume
         persistentVolumeClaim:
