@@ -8,7 +8,8 @@ spec:
   - port: 3000
     targetPort: 3000
     protocol: TCP
-    nodePort: 31001
-  type: NodePort
+    #nodePort: 31001
+  #type: NodePort
+  type: ClusterIP
   selector:
     role: frontend
