@@ -23,7 +23,7 @@ pipeline {
         stage('Git: Code Checkout') {
             steps {
                 script{
-                    code_checkout("https://github.com/hemanthkuncha/TWSThreeTierAppChallenge.git","main")
+                    code_checkout("https://github.com/hemanthkuncha/tws-three-tier-app.git","main")
                 }
             }
         }
@@ -41,13 +41,13 @@ pipeline {
         stage("Update: Kubernetes manifests"){
             steps{
                 script{
-                    dir('Kubernetes-Manifests-file/Backend/'){
+                    dir('kubernetes/backend/'){
                         sh """
                             sed -i -e s/three-tier-backend.*/three-tier-backend:${params.BACKEND_DOCKER_TAG}/g deployment.yaml
                         """
                     }
                     
-                    dir('Kubernetes-Manifests-file/Frontend'){
+                    dir('kubernetes/frontend/'){
                         sh """
                             sed -i -e s/three-tier-frontend.*/three-tier-frontend:${params.FRONTEND_DOCKER_TAG}/g deployment.yaml
                         """
