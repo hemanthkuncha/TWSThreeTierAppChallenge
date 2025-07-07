@@ -19,7 +19,7 @@ pipeline {
         stage('Git: Code Checkout') {
             steps {
                 script{
-                    code_checkout("https://github.com/hemanthkuncha/TWSThreeTierAppChallenge.git","main")
+                    code_checkout("https://github.com/hemanthkuncha/tws-three-tier-app.git","main")
                 }
             }
         }
@@ -41,11 +41,11 @@ pipeline {
         stage("Docker: Build Images"){
             steps{
                 script{
-                        dir('Application-Code/backend'){
+                        dir('application-code/backend/'){
                             docker_build("three-tier-backend","$BUILD_NUMBER","hemanthuser")
                         }
                     
-                        dir('Application-Code/frontend'){
+                        dir('application-code/frontend'){
                             docker_build("three-tier-frontend","$BUILD_NUMBER","hemanthuser")
                         }
                 }
