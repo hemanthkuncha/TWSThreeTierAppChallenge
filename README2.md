@@ -18,3 +18,9 @@ adding the domain to /etc/hosts for testing purpose
 
 no we can access frontend - https://myapp.local:30101 
                             https://myapp.local:30101/api/tasks
+
+u need to expose nginx cotroller in http/https - 30100/30101
+
+create ssl certs then apply ingress.yml
+
+if ssl-redirect is false then both http&https works.
