@@ -96,30 +96,40 @@ kubectl apply -f kubernetes/certs/tls-certificate.yaml
 Ensure your Ingress YAML (kubernetes/ingress/three-tier-ingress.yaml) contains:
 
 ```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: three-tier-ingress
+  namespace: three-tier
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - myapp.local
-    secretName: myapp-tls
+    - hosts:
+        - myapp.local
+      secretName: myapp-tls
   rules:
-  - host: myapp.local
-    http:
-      paths:
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: api
-            port:
-              number: 3500
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 3000
+    - host: myapp.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 3500
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 3000
 ```
 
 Apply it:
