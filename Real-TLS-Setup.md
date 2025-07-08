@@ -1,20 +1,20 @@
 
-# ๐”’ Real TLS Setup with Let's Encrypt and cert-manager (Recommended for Production)
+# Real TLS Setup with Let's Encrypt and cert-manager (Recommended for Production)
 
 To avoid TLS warnings and ensure secure HTTPS access, you should use **Let's Encrypt** certificates managed by **cert-manager** in your Kubernetes cluster.
 
 ---
 
-## โ… Prerequisites
+## Prerequisites
 
-- ๐งพ A **real domain** (e.g., `todo.example.com`)
-- ๐ DNS record (`A` or `CNAME`) pointing to your cluster's **external IP**
-- ๐“ค Ingress Controller with **public access**
-- โ… cert-manager installed
+- A **real domain** (e.g., `todo.example.com`)
+- DNS record (`A` or `CNAME`) pointing to your cluster's **external IP**
+- Ingress Controller with **public access**
+- cert-manager installed
 
 ---
 
-## ๐งฐ 1. Install cert-manager
+## 1. Install cert-manager
 
 Apply the cert-manager manifest (v1.14.1):
 
@@ -30,7 +30,7 @@ kubectl get pods -n cert-manager
 
 ---
 
-## ๐”ง 2. Create a ClusterIssuer for Let's Encrypt (HTTP-01)
+## 2. Create a ClusterIssuer for Let's Encrypt (HTTP-01)
 
 Save the following as `cluster-issuer.yaml`:
 
@@ -59,7 +59,7 @@ kubectl apply -f cluster-issuer.yaml
 
 ---
 
-## ๐ 3. Update Your Ingress Resource
+## 3. Update Your Ingress Resource
 
 Update your Ingress to include TLS and cert-manager annotations:
 
@@ -106,21 +106,21 @@ kubectl apply -f three-tier-ingress.yaml
 
 ---
 
-## ๐“ฆ What cert-manager Does Automatically
+## What cert-manager Does Automatically
 
-โ… Provisions TLS certificates from Let's Encrypt  
-๐” Automatically renews them before they expire  
-๐” Stores them in the specified Kubernetes Secret
+ Provisions TLS certificates from Let's Encrypt  
+ Automatically renews them before they expire  
+ Stores them in the specified Kubernetes Secret
 
 ---
 
-## ๐“ Tips
+## Tips
 
 - Replace `todo.example.com` with your **real domain**
 - Make sure **DNS is configured correctly** before applying Ingress
 - Ensure your **Ingress controller has a reachable external IP**
 - For private/internal clusters, use DNS-01 validation instead
 
-๐“ More info: [https://cert-manager.io/docs/](https://cert-manager.io/docs/)
+ More info: [https://cert-manager.io/docs/](https://cert-manager.io/docs/)
 
 ---

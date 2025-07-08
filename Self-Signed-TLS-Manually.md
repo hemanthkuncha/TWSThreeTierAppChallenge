@@ -1,11 +1,11 @@
 
-# π Self-Signed TLS Setup for Kubernetes (Local Dev)
+# Self-Signed TLS Setup for Kubernetes (Local Dev)
 
 This guide explains how to enable **self-signed TLS certificates** for your Kubernetes-deployed three-tier application using **NGINX Ingress**.
 
 ---
 
-## β 1. Install NGINX Ingress Controller
+## 1. Install NGINX Ingress Controller
 
 If not already installed:
 
@@ -21,7 +21,7 @@ kubectl get pods -n ingress-nginx
 
 ---
 
-## β 2. Generate Self-Signed TLS Certificate
+## 2. Generate Self-Signed TLS Certificate
 
 ### Step 1: Generate certs using OpenSSL
 
@@ -41,11 +41,11 @@ kubectl create secret tls myapp-tls \
   -n three-tier
 ```
 
-> β οΈ **Warning:** Do **not** use this in production.
+>  **Warning:** Do **not** use this in production.
 
 ---
 
-## β 3. Create an Ingress Resource
+## 3. Create an Ingress Resource
 
 Save the following as `three-tier-ingress.yaml`:
 
@@ -94,7 +94,7 @@ kubectl apply -f three-tier-ingress.yaml
 
 ---
 
-## β 4. Add DNS Entry for Local Access
+## 4. Add DNS Entry for Local Access
 
 Edit `/etc/hosts`:
 
@@ -116,7 +116,7 @@ sudo systemctl restart systemd-networkd
 
 ---
 
-## β 5. Access Your App
+## 5. Access Your App
 
 ### Browser HTTP & HTTPS (shows TLS warning β accept to proceed):
 
@@ -134,7 +134,7 @@ curl -k https://myapp.local:31444/api/tasks # Backend
 
 ---
 
-## πʽ Notes
+## Notes
 
 - Self-signed certs are only for dev/testing purposes.
 - Donβt check in real certificates.
